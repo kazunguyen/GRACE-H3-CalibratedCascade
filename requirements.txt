@@ -1,2 +1,3 @@
 -r requirements-cpu.txt
 google-genai>=1,<3
+tqdm>=4.66,<5

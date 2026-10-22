@@ -2,7 +2,7 @@
   "config": {
     "bootstrap": 1000,
     "datasets": [
-      "devign"
+      "reveal"
     ],
     "full_reference": true,
     "gate": {
@@ -36,15 +36,15 @@
       "min_high_precision": 0.98,
       "seed": 42
     },
-    "graph_workers": 2,
+    "graph_workers": 4,
     "inference_workers": 4,
     "retrieval_arm": "baseline_whitening",
     "split": "test"
   },
   "runs": [
     {
-      "dataset": "devign",
-      "path": "runs/h3/devign/3c90db3984588497"
+      "dataset": "reveal",
+      "path": "runs/h3/reveal/9cde2154591aff7f"
     }
   ]
 }

@@ -1,0 +1,168 @@
+{
+  "environment": "Ubuntu dualboot",
+  "source_root": "/home/quang-dung/.local/share/grace-h3/GRACE-H3-CalibratedCascade-recovered-r1",
+  "restored_root": "/media/quang-dung/Data/JUNIOR/LabThayTho/GRACE-H3-CalibratedCascade",
+  "dataset": "reveal",
+  "split": "test",
+  "job_path": "runs/h3/reveal/9cde2154591aff7f",
+  "run_path": "runs/reveal/test/baseline_whitening/5a64cba3ab7edefb",
+  "summary": {
+    "config": {
+      "bootstrap": 1000,
+      "datasets": [
+        "reveal"
+      ],
+      "full_reference": true,
+      "gate": {
+        "C": 1,
+        "calibration_fraction": 0.5,
+        "class_weight": null,
+        "enable_direct_high": false,
+        "family_alpha": 0.05,
+        "high_grid": [
+          0.7,
+          0.8,
+          0.9,
+          0.95,
+          0.975,
+          0.99
+        ],
+        "low_grid": [
+          0.01,
+          0.025,
+          0.05,
+          0.075,
+          0.1,
+          0.15,
+          0.2,
+          0.25,
+          0.3
+        ],
+        "max_high_false_positive_fraction": 0.01,
+        "max_iter": 1000,
+        "max_lost_positive_fraction": 0.01,
+        "min_high_precision": 0.98,
+        "seed": 42
+      },
+      "graph_workers": 4,
+      "inference_workers": 4,
+      "retrieval_arm": "baseline_whitening",
+      "split": "test"
+    },
+    "status": "partial",
+    "request_spec": {
+      "model": "DeepSeek-V4-Flash",
+      "provider": "FPT AI Factory",
+      "base_url": "https://token-api.fpt.ai/v1",
+      "inference": {
+        "temperature": 0.0,
+        "seed": 42,
+        "max_tokens": 256,
+        "retry_policy": "max_attempts=5; exponential_backoff=5s..120s; exhausted_request=invalid",
+        "parser": "../Grace-with-filters-v2/[CONTRACT]/parser/parse_prediction.py::parse_prediction",
+        "parser_contract": "exact_last_line_binary_v1"
+      }
+    },
+    "datasets": [
+      {
+        "dataset": "reveal",
+        "cohort_n": 2274,
+        "branches": {
+          "inspect": 2274
+        },
+        "status": "partial",
+        "coverage": {
+          "cascade": {
+            "inferred_n": 1140,
+            "total_prompts": 2274,
+            "pending_n": 1134,
+            "inferred_percent": 50.13192612137203,
+            "inference_complete": false
+          },
+          "full_reference": {
+            "inferred_n": 1140,
+            "total_prompts": 2274,
+            "pending_n": 1134,
+            "inferred_percent": 50.13192612137203,
+            "inference_complete": false
+          }
+        },
+        "note": "Metrics use only successful cached API responses for the current prompt/model settings. Uncalled/failed requests are excluded; successful but unparseable answers remain in invalid_rate. A prefix is not necessarily representative of the full test set.",
+        "cascade": {
+          "n": 1140,
+          "valid_n": 1140,
+          "invalid_n": 0,
+          "invalid_rate": 0.0,
+          "confusion_matrix_valid_only": {
+            "tp": 0,
+            "tn": 1033,
+            "fp": 1,
+            "fn": 106
+          },
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "mcc": -0.009487041518709745,
+          "balanced_accuracy": 0.4995164410058027,
+          "accuracy_valid_only": 0.906140350877193,
+          "accuracy_all": 0.906140350877193,
+          "recall_all_positives": 0.0,
+          "predicted_positive_rate_all": 0.0008771929824561404,
+          "invalid_positive_n": 0,
+          "metric_scope": "binary metrics condition on valid labels; invalids retained and reported separately",
+          "evaluation_scope": "successful_inference_subset"
+        },
+        "gate_only": {
+          "n": 1140,
+          "valid_n": 1140,
+          "invalid_n": 0,
+          "invalid_rate": 0.0,
+          "confusion_matrix_valid_only": {
+            "tp": 1,
+            "tn": 1034,
+            "fp": 0,
+            "fn": 105
+          },
+          "precision": 1.0,
+          "recall": 0.009433962264150943,
+          "f1": 0.018691588785046728,
+          "mcc": 0.09254340500326298,
+          "balanced_accuracy": 0.5047169811320755,
+          "accuracy_valid_only": 0.9078947368421053,
+          "accuracy_all": 0.9078947368421053,
+          "recall_all_positives": 0.009433962264150943,
+          "predicted_positive_rate_all": 0.0008771929824561404,
+          "invalid_positive_n": 0,
+          "metric_scope": "binary metrics condition on valid labels; invalids retained and reported separately",
+          "evaluation_scope": "same_inferred_subset_as_cascade"
+        },
+        "full_reference": {
+          "n": 1140,
+          "valid_n": 1140,
+          "invalid_n": 0,
+          "invalid_rate": 0.0,
+          "confusion_matrix_valid_only": {
+            "tp": 0,
+            "tn": 1033,
+            "fp": 1,
+            "fn": 106
+          },
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "mcc": -0.009487041518709745,
+          "balanced_accuracy": 0.4995164410058027,
+          "accuracy_valid_only": 0.906140350877193,
+          "accuracy_all": 0.906140350877193,
+          "recall_all_positives": 0.0,
+          "predicted_positive_rate_all": 0.0008771929824561404,
+          "invalid_positive_n": 0,
+          "metric_scope": "binary metrics condition on valid labels; invalids retained and reported separately",
+          "evaluation_scope": "successful_inference_subset"
+        }
+      }
+    ],
+    "note": "Chưa inference xong nếu status=partial. Metrics chỉ tính trên các phản hồi API thành công đã có."
+  },
+  "llm_called_during_export": false
+}

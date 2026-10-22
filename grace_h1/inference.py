@@ -82,7 +82,7 @@ def run_inference(root,run_dir,*,allow_api=False,workers=4):
         key=request_key(prompt['prompt_sha256'],spec);groups.setdefault(key,[]).append(prompt)
     todo=[(key,rows[0]) for key,rows in groups.items() if read_cached(root,key,rows[0]['prompt_sha256'],spec) is None]
     if todo and not allow_api:
-        return plan|{'status':'prepared_cache_only','action':'run again with allow_api=True to call Vertex for missing exact prompts'}
+        return plan|{'status':'prepared_cache_only','action':'run again with allow_api=True to call FPT for missing exact prompts'}
     clients=[];client_lock=threading.Lock();local=threading.local()
     settings=load_fpt_settings()
     if todo and settings is not None:

@@ -39,6 +39,7 @@ class GraphStore:
         try: result=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',errors='replace',timeout=300)
         except FileNotFoundError as exc: raise RuntimeError('Joern missing. Set JOERN_HOME and use the documented WSL kernel.') from exc
         if result.returncode: raise RuntimeError(f'{name} failed: {(result.stderr+result.stdout)[-2000:]}')
+        return result
 
     def ensure(self,row):
         h=row['code_sha256']
@@ -52,9 +53,15 @@ class GraphStore:
             scratch=Path(temp);source=scratch/'target.c';binary=scratch/'target.bin';export=scratch/'export'
             source.write_bytes(row['code'].encode('utf-8'))
             self._run('joern-parse',[source,'--output',binary])
-            self._run('joern-export',['--repr','all','--format','graphml','--out',export,binary])
-            matches=list(export.glob('*.xml'))+list(export.glob('*.graphml'))
-            if len(matches)!=1: raise RuntimeError('No unique whole-CPG GraphML export')
+            result=self._run('joern-export',['--repr','all','--format','graphml','--out',export,binary])
+            matches=sorted(p for p in export.rglob('*') if p.is_file() and p.suffix.lower() in ('.xml','.graphml'))
+            if len(matches)!=1:
+                detail={'record_id':row.get('record_id'),'code_sha256':h,
+                        'export_files':[str(p.relative_to(export)) for p in export.rglob('*') if p.is_file()],
+                        'stdout':getattr(result,'stdout','')[-4000:],'stderr':getattr(result,'stderr','')[-4000:]}
+                diagnostic=card/'last-export-diagnostics.json'
+                diagnostic.write_text(json.dumps(detail,ensure_ascii=False,indent=2),encoding='utf-8')
+                raise RuntimeError(f'Expected one whole-CPG GraphML export, found {len(matches)}; diagnostics: {diagnostic}')
             graph=parse_graphml(matches[0])
             graph.update(schema='grace_h1_graph_v1',code_sha256=h,source_cpg_uncompressed_sha256=file_hash(binary),
                          graphml_sha256=file_hash(matches[0]),source='joern_parse_export_all',joern_home=self.home)

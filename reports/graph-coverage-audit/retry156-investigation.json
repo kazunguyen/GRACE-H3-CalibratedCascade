@@ -1,0 +1,43 @@
+{
+  "groups": {
+    "ICU calling convention": 48,
+    "ImageMagick restrict": 5,
+    "other": 27,
+    "PHP thread context": 42,
+    "Linux annotations": 27,
+    "PNG calling convention": 5,
+    "FFmpeg annotation": 2
+  },
+  "experiments": [
+    {
+      "group": "ICU calling convention",
+      "macro": "U_CALLCONV",
+      "nodes": 331,
+      "edges": 2878
+    },
+    {
+      "group": "Linux annotations",
+      "macro": "__user",
+      "nodes": 27,
+      "edges": 170
+    },
+    {
+      "group": "ImageMagick restrict",
+      "macro": "magick_restrict",
+      "nodes": 1093,
+      "edges": 10546
+    },
+    {
+      "group": "PNG calling convention",
+      "macro": "PNGAPI",
+      "nodes": 39,
+      "edges": 274
+    },
+    {
+      "group": "FFmpeg annotation",
+      "macro": "av_unused",
+      "nodes": 530,
+      "edges": 4876
+    }
+  ]
+}

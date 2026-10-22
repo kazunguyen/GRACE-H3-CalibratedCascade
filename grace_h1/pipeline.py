@@ -1,7 +1,8 @@
 from __future__ import annotations
 from pathlib import Path
 from dataclasses import dataclass,asdict
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,as_completed
+from tqdm.auto import tqdm
 import gc,subprocess,time,sys,importlib.metadata
 import numpy as np
 import yaml
@@ -60,7 +61,7 @@ def prepare_run(root,config=None,head_manifest=None,checkpoint_callback=None,tar
     contract_path=root/'configs'/'reference_contract.yaml';template_path=root/'configs'/'prompt_template.txt'
     contract=yaml.safe_load(contract_path.read_text(encoding='utf-8'));template=template_path.read_text(encoding='utf-8')
     if contract['retrieval_pool']['candidate_pool_size']!=50: raise ValueError('Expected common top50 contract')
-    spec={'schema':'grace_h1_prepare_v1','config':asdict(cfg),'train':row_identity(train),'targets':row_identity(targets),
+    spec={'schema':'grace_h1_prepare_v1','graph_revision':file_hash(root/'cache/graph_revision.json'),'config':asdict(cfg),'train':row_identity(train),'targets':row_identity(targets),
           'embedding_files':[tm['files'],qm['files']],'recipe':recipe,'head':head_manifest['projection_sha256'] if head_manifest else None,
           'data_manifest':file_hash(root/'data'/'manifest.json'),'contract':file_hash(contract_path),'template':file_hash(template_path),'source':sources}
     signature=fingerprint(spec);output=root/'runs'/cfg.dataset/cfg.split/cfg.arm/signature[:16]
@@ -99,12 +100,24 @@ def prepare_run(root,config=None,head_manifest=None,checkpoint_callback=None,tar
         return {'code_sha256':graph['code_sha256'],'feature_sha256':graph['feature_sha256'],
                 'schema':graph['schema'],'nodes':len(graph['nodes']),'edges':len(graph['edges'])}
     last_checkpoint_built=-1
+    graph_started=time.monotonic()
+    graph_index=[None]*len(needed)
     with ThreadPoolExecutor(max_workers=cfg.graph_workers) as pool:
-        for n,summary in enumerate(pool.map(ensure_summary,needed.values()),1):
-            graph_index.append(summary)
-            if n%500==0: print(f'graphs {n}/{len(needed)}',flush=True)
-            if checkpoint_callback and n%500==0 and graphs.built!=last_checkpoint_built:
-                checkpoint_callback();last_checkpoint_built=graphs.built
+        pending={pool.submit(ensure_summary,row):i for i,row in enumerate(needed.values())}
+        with tqdm(total=len(needed),desc=f'{cfg.dataset} graphs',unit='graph',
+                  dynamic_ncols=True,mininterval=1) as progress:
+            for n,future in enumerate(as_completed(pending),1):
+                graph_index[pending.pop(future)]=future.result()
+                elapsed=max(time.monotonic()-graph_started,1e-6)
+                progress.set_postfix(built=graphs.built,cached=graphs.reused,
+                                     new_per_min=f'{graphs.built*60/elapsed:.2f}',refresh=False)
+                progress.update(1)
+                if checkpoint_callback and n%500==0 and graphs.built!=last_checkpoint_built:
+                    checkpoint_callback();last_checkpoint_built=graphs.built
+    elapsed=time.monotonic()-graph_started
+    print(f'Graph stage: {graphs.built} new, {graphs.reused} cached; '
+          f'{elapsed/60:.2f} min; {graphs.built*60/max(elapsed,1e-6):.2f} new graphs/min '
+          f'({cfg.graph_workers} workers)',flush=True)
     trunc=contract['prompt_context_policy']['truncation_policy']
     policy=trunc|{'context_limit':contract['prompt_context_policy']['context_limit']}
     prompts=[];retrieval=[];available=0
@@ -134,7 +147,7 @@ def prepare_run(root,config=None,head_manifest=None,checkpoint_callback=None,tar
               'query_labels_used_for_retrieval':False,'demo_count':1,'syntax_profile':'code_based_ast_edge_tokens_substitution_2',
               'prompt_budget_unit':'conservative UTF-8 bytes from baseline fitter; provider usage recorded at inference'}
     write_json(output/'run_manifest.json',manifest)
-    locked=paths+[output/'run_manifest.json',contract_path,template_path,root/'data'/'manifest.json']
+    locked=paths+[output/'run_manifest.json',contract_path,template_path,root/'data'/'manifest.json',root/'cache/graph_revision.json']
     write_json(output/'freeze.json',{'files':{p.relative_to(root).as_posix():file_hash(p) for p in locked}})
     print(f'prepared {len(prompts)} prompts; graph coverage {available/len(targets):.1%}: {output}',flush=True)
     if checkpoint_callback: checkpoint_callback()

@@ -1,0 +1,31 @@
+[
+  {
+    "case": "u_raw",
+    "nodes": 0,
+    "edges": 0,
+    "status": "joern_no_function_ast",
+    "exported_nodes": 18
+  },
+  {
+    "case": "u_define",
+    "error": "ap$(StrictOptimizedIterableOps.scala:29)\n\tat scala.collection.immutable.Set$Set1.map(Set.scala:167)\n\tat io.joern.c2cpg.parser.ParserConfig$.fromConfig(ParserConfig.scala:30)\n\tat io.joern.c2cpg.parser.CdtParser.<init>(CdtParser.scala:102)\n\tat io.joern.c2cpg.passes.AstCreationPass.<init>(AstCreationPass.scala:93)\n\tat io.joern.c2cpg.C2Cpg.createCpg$$anonfun$1(C2Cpg.scala:32)\n\tat scala.runtime.function.JProcedure2.apply(JProcedure2.java:15)\n\tat scala.runtime.function.JProcedure2.apply(JProcedure2.java:10)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg$$anonfun$1$$anonfun$1(X2Cpg.scala:362)\n\tat io.joern.x2cpg.X2Cpg$.$anonfun$adapted$1(X2Cpg.scala:363)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg$$anonfun$1(X2Cpg.scala:363)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg(X2Cpg.scala:369)\n\tat io.joern.c2cpg.C2Cpg.createCpg(C2Cpg.scala:24)\n\tat io.joern.c2cpg.C2Cpg.createCpg(C2Cpg.scala:23)\n\tat io.joern.x2cpg.X2CpgFrontend.run(X2Cpg.scala:236)\n\tat io.joern.x2cpg.X2CpgFrontend.run$(X2Cpg.scala:222)\n\tat io.joern.c2cpg.C2Cpg.run(C2Cpg.scala:17)\n\tat io.joern.x2cpg.X2CpgMain.run(X2Cpg.scala:191)\n\tat io.joern.c2cpg.Main$.run(Main.scala:125)\n\tat io.joern.x2cpg.X2CpgMain.main(X2Cpg.scala:204)\n\tat io.joern.c2cpg.Main.main(Main.scala)\n\tat io.shiftleft.semanticcpg.utils.ExternalCommandResult.toTry(ExternalCommandResult.scala:46)\n\tat io.shiftleft.semanticcpg.utils.ExternalCommandResult.verifySuccess(ExternalCommandResult.scala:35)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand$$anonfun$1(CpgGenerator.scala:46)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand$$anonfun$adapted$1(CpgGenerator.scala:47)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand(CpgGenerator.scala:47)\n\tat io.joern.console.cpgcreation.CCpgGenerator.generate(CCpgGenerator.scala:18)\n\tat io.joern.joerncli.JoernParse$.generateCpg$$anonfun$2(JoernParse.scala:143)\n\t... 12 more\n"
+  },
+  {
+    "case": "attr_define",
+    "error": "ap$(StrictOptimizedIterableOps.scala:29)\n\tat scala.collection.immutable.Set$Set1.map(Set.scala:167)\n\tat io.joern.c2cpg.parser.ParserConfig$.fromConfig(ParserConfig.scala:30)\n\tat io.joern.c2cpg.parser.CdtParser.<init>(CdtParser.scala:102)\n\tat io.joern.c2cpg.passes.AstCreationPass.<init>(AstCreationPass.scala:93)\n\tat io.joern.c2cpg.C2Cpg.createCpg$$anonfun$1(C2Cpg.scala:32)\n\tat scala.runtime.function.JProcedure2.apply(JProcedure2.java:15)\n\tat scala.runtime.function.JProcedure2.apply(JProcedure2.java:10)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg$$anonfun$1$$anonfun$1(X2Cpg.scala:362)\n\tat io.joern.x2cpg.X2Cpg$.$anonfun$adapted$1(X2Cpg.scala:363)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg$$anonfun$1(X2Cpg.scala:363)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.x2cpg.X2Cpg$.withNewEmptyCpg(X2Cpg.scala:369)\n\tat io.joern.c2cpg.C2Cpg.createCpg(C2Cpg.scala:24)\n\tat io.joern.c2cpg.C2Cpg.createCpg(C2Cpg.scala:23)\n\tat io.joern.x2cpg.X2CpgFrontend.run(X2Cpg.scala:236)\n\tat io.joern.x2cpg.X2CpgFrontend.run$(X2Cpg.scala:222)\n\tat io.joern.c2cpg.C2Cpg.run(C2Cpg.scala:17)\n\tat io.joern.x2cpg.X2CpgMain.run(X2Cpg.scala:191)\n\tat io.joern.c2cpg.Main$.run(Main.scala:125)\n\tat io.joern.x2cpg.X2CpgMain.main(X2Cpg.scala:204)\n\tat io.joern.c2cpg.Main.main(Main.scala)\n\tat io.shiftleft.semanticcpg.utils.ExternalCommandResult.toTry(ExternalCommandResult.scala:46)\n\tat io.shiftleft.semanticcpg.utils.ExternalCommandResult.verifySuccess(ExternalCommandResult.scala:35)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand$$anonfun$1(CpgGenerator.scala:46)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand$$anonfun$adapted$1(CpgGenerator.scala:47)\n\tat scala.util.Try$.apply(Try.scala:195)\n\tat io.joern.console.cpgcreation.CpgGenerator.runShellCommand(CpgGenerator.scala:47)\n\tat io.joern.console.cpgcreation.CCpgGenerator.generate(CCpgGenerator.scala:18)\n\tat io.joern.joerncli.JoernParse$.generateCpg$$anonfun$2(JoernParse.scala:143)\n\t... 12 more\n"
+  },
+  {
+    "case": "cpp_raw",
+    "nodes": 0,
+    "edges": 0,
+    "status": "joern_no_function_ast",
+    "exported_nodes": 18
+  },
+  {
+    "case": "cpp_scope_fixed",
+    "nodes": 0,
+    "edges": 0,
+    "status": "joern_no_function_ast",
+    "exported_nodes": 18
+  }
+]

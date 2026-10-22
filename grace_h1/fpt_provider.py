@@ -1,4 +1,4 @@
-"""Optional FPT transport; absence of the shared .env leaves Vertex unchanged."""
+"""FPT transport configured by the shared LabThayTho .env."""
 from pathlib import Path
 from types import SimpleNamespace
 import json
@@ -7,9 +7,9 @@ import urllib.request
 
 
 def load_fpt_settings():
-    path = Path("D:/JUNIOR/LabThayTho/.env") if os.name == "nt" else Path("/mnt/d/JUNIOR/LabThayTho/.env")
+    path = Path("D:/JUNIOR/LabThayTho/.env") if os.name == "nt" else Path("/media/quang-dung/Data/JUNIOR/LabThayTho/.env")
     if not path.is_file():
-        return None
+        raise FileNotFoundError(f"FPT configuration not found: {path}")
     values = {}
     for line in path.read_text(encoding="utf-8-sig").splitlines():
         key, separator, value = line.strip().removeprefix("export ").partition("=")
@@ -23,6 +23,8 @@ def load_fpt_settings():
         else:
             value = value.split(" #", 1)[0].strip()
         values[key.strip()] = value
+    if not values.get("FPT_API"):
+        raise RuntimeError(f"Set FPT_API in {path}")
     if not values.get("FPT_MODEL"):
         raise RuntimeError("Set FPT_MODEL in the shared LabThayTho .env")
     return {"model": values["FPT_MODEL"], "api_key": values.get("FPT_API", ""),

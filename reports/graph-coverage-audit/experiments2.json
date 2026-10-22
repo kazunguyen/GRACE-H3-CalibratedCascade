@@ -1,0 +1,30 @@
+[
+  {
+    "case": "u_header",
+    "nodes": 31,
+    "edges": 241,
+    "status": "joern_exported",
+    "exported_nodes": 97
+  },
+  {
+    "case": "attr_header",
+    "nodes": 14,
+    "edges": 76,
+    "status": "joern_exported",
+    "exported_nodes": 57
+  },
+  {
+    "case": "cpp_extension",
+    "nodes": 0,
+    "edges": 0,
+    "status": "joern_no_function_ast",
+    "exported_nodes": 18
+  },
+  {
+    "case": "cpp_fixed_extension",
+    "nodes": 26,
+    "edges": 160,
+    "status": "joern_exported",
+    "exported_nodes": 71
+  }
+]
